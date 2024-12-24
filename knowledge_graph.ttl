@@ -1,0 +1,49 @@
+@prefix foaf: <http://xmlns.com/foaf> .
+@prefix dct: <kgllm/my-vocab/dct/terms#> .
+@prefix act: <kgllm/my-vocab/action#> .
+@prefix org: <kgllm/entities/org#> .
+@prefix doc: <kgllm/entities/doc#> .
+@prefix ex: <kgllm/entities/> .
+
+# Buyer
+ex:Buyer a foaf:Organization ;
+    ex:Buyer act:has org:Buyer1 . 
+org:Buyer1 act:has dct:name ;
+    dct:name "buyer1" ;
+    act:purchaseFrom org:Supplier1 .
+
+# Supplier
+ex:Supplier a foaf:Organization ;
+    ex:Supplier act:has org:Supplier1 .
+org:Supplier act:has dct:name ;
+    dct:name "supplier1" ;
+    act:sellTo org:Buyer1 .
+
+# Order
+ex:Order act:has dct:number ;
+    dct:number "001" ;
+    act:linkTo doc:PurchaseOrder .
+
+# Placing Order
+org:Buyer1 act:place ex:Order ;
+    act:create doc:PurchaseOrder .
+org:Supplier1 act:receive doc:PurchaseOrder .
+
+# Confirming Order
+org:Supplier1 act:confirm ex:Order ;
+    act:create doc:OrderConfirmation .
+org:Buyer1 act:receive doc:OrderConfirmation .
+
+# Shipping Goods
+org:Supplier1 act:ship ex:Goods ;
+    act:create doc:ShippingNotice .
+org:Buyer1 act:receive doc:ShippingNotice .
+
+# Receiving Goods
+org:Buyer1 act:receive ex:Goods ;
+    act:create doc:GoodsReceipt .
+org:Supplier1 act:receive doc:GoodsReceipt .
+
+# Invoicing
+org:Supplier1 act:create doc:Invoice .
+org:Buyer1 act:receive doc:Invoice .
